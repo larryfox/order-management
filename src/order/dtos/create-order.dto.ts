@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import {
   ArrayNotEmpty,
   IsArray,
@@ -12,6 +13,7 @@ export class CreateOrderDto {
   @IsArray()
   @ArrayNotEmpty()
   @ValidateNested({ each: true })
+  @Type(() => CreateLineItemDto)
   lineItems: CreateLineItemDto[];
 }
 

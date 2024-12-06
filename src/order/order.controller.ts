@@ -12,15 +12,15 @@ export class OrderController {
 
   @Post()
   async create(@Body() input: CreateOrderDto) {
-    await this.orderService.createOrder(input.lineItems);
+    return await this.orderService.createOrder(input.lineItems);
   }
 
   @Patch(':id')
   async update(
-    @Param('id', OrderById) order: Order,
     @Body() input: UpdateOrderShippingDto,
+    @Param('id', OrderById) order: Order,
   ) {
-    await this.orderService.updateOrderShipping(order, input);
+    return await this.orderService.updateOrderShipping(order, input);
   }
 
   @Post(':id/status/:status')
@@ -28,7 +28,7 @@ export class OrderController {
     @Param('id', OrderById) order: Order,
     @Param('status', ParseOrderStatus) status: OrderStatus,
   ) {
-    await this.orderService.updateOrderStatus(order, status);
+    return await this.orderService.updateOrderStatus(order, status);
   }
 
   @Delete(':id')
