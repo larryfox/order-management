@@ -8,6 +8,14 @@ import {
 } from 'typeorm';
 import { LineItem } from './line-item.entity';
 
+export const OrderStatus = {
+  Created: 'created',
+  Processing: 'processing',
+  Canceled: 'canceled',
+  Delivered: 'delivered',
+} as const;
+export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus];
+
 @Entity()
 export class Order {
   @PrimaryGeneratedColumn()
@@ -20,7 +28,7 @@ export class Order {
   updatedAt: Date;
 
   @Column('varchar', { nullable: false })
-  status: string;
+  status: OrderStatus;
 
   @Column('varchar', { nullable: true })
   shippingProvider: string;
@@ -28,6 +36,8 @@ export class Order {
   @Column('varchar', { nullable: true })
   trackingId: string;
 
-  @OneToMany(() => LineItem, (lineItem) => lineItem.order)
+  @OneToMany(() => LineItem, (lineItem) => lineItem.order, {
+    onDelete: 'CASCADE',
+  })
   lineItems: LineItem[];
 }
