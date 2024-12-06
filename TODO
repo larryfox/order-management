@@ -3,6 +3,8 @@ TODO
 - Order module
     - Controller CRUD operations
     - Order Service
+    - DTOs
+    - Guards
 - Database
     - Entities
 - Integration with external services
