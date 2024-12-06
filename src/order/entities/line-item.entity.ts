@@ -10,13 +10,16 @@ export class LineItem {
   orderId: string;
 
   @Column('varchar', { nullable: false })
+  name: string;
+
+  @Column('varchar', { nullable: false })
   sku: string;
 
   @Column('int', { nullable: false })
   quantity: number;
 
   @Column('int', { nullable: false })
-  cost: number;
+  price: number;
 
   @ManyToOne(() => Order, (order) => order.lineItems)
   order: Order;

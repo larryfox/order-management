@@ -37,7 +37,7 @@ export class Order {
   trackingId?: string;
 
   @OneToMany(() => LineItem, (lineItem) => lineItem.order, {
-    onDelete: 'CASCADE',
+    cascade: ['insert'],
   })
   lineItems: LineItem[];
 }

@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { LineItem } from './entities/line-item.entity';
 import { Order, OrderStatus } from './entities/order.entity';
+import { ProductService } from 'src/product/product.service';
 
 @Injectable()
 export class OrderService {
@@ -11,16 +12,29 @@ export class OrderService {
     private readonly orderRepo: Repository<Order>,
     @InjectRepository(LineItem)
     private readonly lineItemRepo: Repository<LineItem>,
+    private readonly productService: ProductService,
   ) {}
 
   async createOrder(
     lineItems: Pick<LineItem, 'sku' | 'quantity'>[],
   ): Promise<Order> {
-    const order = this.orderRepo.create();
-    await this.orderRepo.save(order);
-    // todo: add orderId to each lineItem, fetch cost from inventory service
-    await this.lineItemRepo.save(lineItems);
-    return order;
+    const order = this.orderRepo.create({
+      lineItems: [],
+      status: OrderStatus.Processing,
+    });
+
+    for (const { sku, quantity } of lineItems) {
+      const product = await this.productService.fetchProduct(sku);
+      const lineItem = this.lineItemRepo.create({
+        sku,
+        quantity,
+        price: product.price,
+        name: product.name,
+      });
+      order.lineItems.push(lineItem);
+    }
+
+    return this.orderRepo.save(order);
   }
 
   async updateOrderStatus(order: Order, status: OrderStatus) {
