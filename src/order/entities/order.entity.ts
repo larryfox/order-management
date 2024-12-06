@@ -31,10 +31,10 @@ export class Order {
   status: OrderStatus;
 
   @Column('varchar', { nullable: true })
-  shippingProvider: string;
+  shippingProvider?: string;
 
   @Column('varchar', { nullable: true })
-  trackingId: string;
+  trackingId?: string;
 
   @OneToMany(() => LineItem, (lineItem) => lineItem.order, {
     onDelete: 'CASCADE',
