@@ -8,6 +8,9 @@ automatically generates integer primary keys, and it simplified my work.
 
 Could be deployed to EC2 with Kubernetes/Terraform, with other infrastructure provisioned like RDS
 
+### Database Schema
+<img width="914" alt="erd" src="https://github.com/user-attachments/assets/2906c1a1-f1cb-4d29-9c2b-a819e768222e">
+
 ## Todos & Improvements
 
 Add user authentication
@@ -15,7 +18,7 @@ Add user authentication
 Add an OrderStatus table so status could be kept track of in chronological
 order. Currently only the latest status is known.
 
-Add an OrderShipping table, so orders could be split into multiple shipments
+Add an OrderShipping table so orders could be split into multiple shipments
 
 Properly defined response objects
 
